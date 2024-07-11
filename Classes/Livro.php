@@ -90,4 +90,10 @@ class Livro
         $stmt->execute([$idlivro]);
         return $stmt;
     }
+
+    public function addALista($idlivro, $titulo, $autor, $ano_publicacao, $genero){
+        if(!isset($_SESSION['lista'])){
+            $_SESSION['lista'] = array();
+        }
+    }
 }

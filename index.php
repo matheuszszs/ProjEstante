@@ -5,17 +5,23 @@ include_once './config/config.php';
 include_once './classes/Usuario.php';
 include_once './classes/Livro.php';
 
-$l = new Livro($db);
+$livro = new Livro($db);
 
 // Obter parâmetros de pesquisa e filtros
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : '';
 
 // Obter dados das noticias com filtros
-$dados = $l->ler($search, $order_by);
+$dados = $livro->ler($search, $order_by);
 
-//Obter dados das noticias
-//$dados = $noticias->ler($search, $order_by);
+// Função para adicionar um produto ao carrinho
+function addALista($idlivro, $titulo, $autor, $ano_publicacao, $genero)
+{
+    if (!isset($_SESSION['lista'])) {
+        $_SESSION['lista'] = array();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -30,25 +36,27 @@ $dados = $l->ler($search, $order_by);
 
 <body>
 
-    <a href="login.php"><button class="botao">Login.</button></a>
+    <a href="login.php"><button class="botao">Login</button></a>
 
     <div class="box">
         <div class="titulo">
-            <h1>Portal de Notícias.</h1>
+            <h1>Página Inicial</h1>
         </div>
 
-        <div class="noticiasContainer">
-            <ul class="noticiaLista">
-                <?php while ($noticia = $dados->fetch(PDO::FETCH_ASSOC)): ?>
+        <div class="container">
+            <ul class="livroLista">
+                <?php while ($livro = $dados->fetch(PDO::FETCH_ASSOC)): ?>
                     <li>
-                        <h3><?php echo htmlspecialchars($noticia['titulo']) ?></h3>
-                        <p> <?php echo htmlspecialchars($noticia['noticia']) ?></p>
-                        <span> <?php echo htmlspecialchars($noticia['data']) ?></span>
+                        <h3><?php echo htmlspecialchars($livro['titulo']) ?></h3>
+                        <p> <?php echo htmlspecialchars($livro['autor']) ?></p>
+                        <span> <?php echo htmlspecialchars($livro['ano_publicacao']) ?></span>
                     </li>
                 <?php endwhile; ?>
             </ul>
         </div>
+
     </div>
+
 
 </body>
 

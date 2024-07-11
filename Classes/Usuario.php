@@ -36,7 +36,7 @@ class Usuario
         return $this->registrar($nome, $fone, $email, $senha);
     }
     public function ler($search = '', $order_by = '') {
-        $query = "SELECT * FROM usuario";
+        $query = "SELECT * FROM usuarios ";
         $conditions = [];
         $params = [];
 

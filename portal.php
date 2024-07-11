@@ -68,20 +68,17 @@ function saudacao()
                     </form>
                 </div>
 
-                <div><?php while ($row = $dados->fetch(PDO::FETCH_ASSOC)) : ?>
-                        <table style='width:90%;' border="1" align="center">
-                            <tr>
-                                <th>Postado por: <?php echo $row['usuario']; ?></th>
-                                <th><?php echo $row['data']; ?></th>
-
-                            </tr>
-                        </table>
-                        <table style='width:90%;' border="1" align="center">
-                            <tr>
-                                <td style='text-align: center' ;><strong><?php echo $row['titulo']; ?></strong></td>
-                            </tr>
-                        </table><br><br>
-                    <?php endwhile; ?>
+                <div class="container">
+                    <ul class="livroLista">
+                        <?php while ($livro = $dados->fetch(PDO::FETCH_ASSOC)): ?>
+                            <li>
+                                <h3><?php echo htmlspecialchars($livro['titulo']) ?></h3>
+                                <p> <?php echo htmlspecialchars($livro['autor']) ?></p>
+                                <span> <?php echo htmlspecialchars($livro['ano_publicacao']) ?></span>
+                            </li>
+                        <?php endwhile; ?>
+                    </ul>
+                </div>
 
         </main>
     </div>
