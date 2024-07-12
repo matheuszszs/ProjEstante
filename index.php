@@ -1,6 +1,10 @@
 <?php
 session_start();
 date_default_timezone_set('America/Sao_Paulo');
+
+$logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'];
+$adm = isset($_GET['adm']);
+
 include_once './config/config.php';
 include_once './classes/Usuario.php';
 include_once './classes/Livro.php';
@@ -13,14 +17,6 @@ $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : '';
 
 // Obter dados das noticias com filtros
 $dados = $livro->ler($search, $order_by);
-
-// Função para adicionar um produto ao carrinho
-function addALista($idlivro, $titulo, $autor, $ano_publicacao, $genero)
-{
-    if (!isset($_SESSION['lista'])) {
-        $_SESSION['lista'] = array();
-    }
-}
 
 ?>
 
@@ -36,7 +32,12 @@ function addALista($idlivro, $titulo, $autor, $ano_publicacao, $genero)
 
 <body>
 
-    <a href="login.php"><button class="botao">Login</button></a>
+    <a href="editar.php"><button class="botao">Editar Perfil</button></a>
+    <a href="deletar.php"><button class="botao">Excluir Perfil</button></a>
+    <a href="portal.php"><button class="botao">Logout</button></a>
+    <?php if ($logged_in && $adm == 1): ?>
+        <a href="regisLivro"><button class="botao">Adicionar um Livro</button></a>
+    <?php endif; ?>
 
     <div class="box">
         <div class="titulo">

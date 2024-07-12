@@ -1,18 +1,17 @@
-<?php 
-    session_start();
-    if (!isset($_SESSION['usuario_id'])) {
-        header('Location: index.php');
-        exit();
-    }
+<?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: index.php');
+    exit();
+}
 
-    include_once './config/config.php';
-    include_once './classes/Usuario.php';
+include_once './config/config.php';
+include_once './classes/Usuario.php';
 
-    $usuario = new Usuario($db);
-    if(isset($_GET['id'])){
-        $id = $_GET['id'];
-        $usuario->deletar($id);
-        header('Location: crudUsuario.php');
-        exit();
-    }
+$usuario = new Usuario($db);
+
+$usuario->deletar($_SESSION['usuario_id']);
+header('Location: index.php');
+exit();
+
 ?>

@@ -1,8 +1,10 @@
-<?php
+<!-- <?php
 session_start();
 date_default_timezone_set('America/Sao_Paulo');
+
 include_once './config/config.php';
 include_once './classes/Usuario.php';
+include_once './classes/Livro.php';
 
 //Verifica se o usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
@@ -11,15 +13,14 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 $usuario = new Usuario($db);
+$livro = new Livro($db);
 
+// Obter parâmetros
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : '';
 
-//Processar exlusão do usuário
-if (isset($_GET['deletar'])) {
-    $id = $_GET['deletar'];
-    $usuario->deletar($id);
-    header('Location: crudUsuario.php');
-    exit();
-}
+// Obter dados dos livros.
+$dadosLivro = $livro->ler($search, $order_by);
 
 // Obter parâmetros de pesquisa e filtros
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -36,6 +37,8 @@ $nome_usuario = $dados_Usuario['nome'];
 //Obter dados dos usuários
 $dados = $usuario->ler($search, $order_by);
 //Função para determinar saudação
+
+
 function saudacao()
 {
     $hora = date("H");
@@ -47,6 +50,13 @@ function saudacao()
         return "Boa noite!";
     }
 }
+
+//Exclusão da pessoa logada
+//if ($usuario->excluirPerfil($id)) {
+//    header('location: index.php');
+//    exit();
+
+//}
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +71,7 @@ function saudacao()
 
 <body>
 
-    <a href="deletar.php?id=<?php echo $row['id']; ?>"><button>Deletar</button></a>
+    <a href="index.php"><button class="botao">Ir para o portal</button></a>
     <a href="login.php"><button class="botao">Logout</button></a>
 
     <div class="box">
@@ -71,7 +81,9 @@ function saudacao()
 
         <div class="container">
             <ul class="livroLista">
-                <?php while ($livro = $dados->fetch(PDO::FETCH_ASSOC)): ?>
+                <?php
+
+                while ($livro = $dadosLivro->fetch(PDO::FETCH_ASSOC)): ?>
                     <li>
                         <h3><?php echo htmlspecialchars($livro['titulo']) ?></h3>
                         <p> <?php echo htmlspecialchars($livro['autor']) ?></p>
@@ -83,4 +95,4 @@ function saudacao()
     </div>
 </body>
 
-</html>
+</html> -->

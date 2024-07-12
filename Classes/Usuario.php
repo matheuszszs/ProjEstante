@@ -10,12 +10,12 @@ class Usuario
     {
         $this->conn = $db;
     }
-    public function registrar($nome, $fone, $email, $senha)
+    public function registrar($nome, $fone, $email, $senha, $adm)
     {
-        $query = "INSERT INTO " . $this->table_name . " (nome, fone, email, senha) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO " . $this->table_name . " (nome, fone, email, senha, adm) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $hashed_password = password_hash($senha, PASSWORD_BCRYPT);
-        $stmt->execute([$nome, $fone, $email, $hashed_password]);
+        $stmt->execute([$nome, $fone, $email, $hashed_password, $adm]);
         return $stmt;
     }
 
@@ -31,10 +31,7 @@ class Usuario
         }
         return false;
     }
-    public function criar($nome, $fone, $email, $senha)
-    {
-        return $this->registrar($nome, $fone, $email, $senha);
-    }
+
     public function ler($search = '', $order_by = '') {
         $query = "SELECT * FROM usuarios ";
         $conditions = [];
@@ -61,7 +58,6 @@ class Usuario
     }
     public function lerPerfUsu($id){
         $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
-        
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$id]);
         return $stmt;
@@ -88,6 +84,24 @@ class Usuario
         $stmt->execute([$id]);
         return $stmt;
     }
+
+// Função para excluir o usuário logado
+    public function excluirPerfil($id){
+        if(is_numeric($id)) {
+            $query = "DELETE FROM usuarios WHERE id = $id";
+            
+            if($this->conn->query($query) === TRUE){
+                return true; //Exclusão feita
+            } else {
+                echo "Erro ao excluir o usuário desejado: " . $this->conn->error;
+            }
+        } else {
+            echo "ID de usuário inválido!";
+        }
+
+        return false; //Exclusão falhou
+    }
+
     // Gera um código de verificação e o salva no banco de dados
     public function gerarCodigoVerificacao($email)
     {
@@ -114,4 +128,28 @@ class Usuario
         $stmt->execute([$hashed_password, $codigo]);
         return $stmt->rowCount() > 0;
     }
+
+    public function verificaAdm($id){
+        $query = "SELECT adm FROM usuarios WHERE id = 1";
+        $stmt = $this->conn->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->FETCH_ASSOC();
+            return $row['id'] == 1;
+        } else {
+            return false;
+        }
+    }
 }
+
+
+// {
+//     $query = "SELECT * FROM " . $this->table_name . " WHERE email = ?";
+//     $stmt = $this->conn->prepare($query);
+//     $stmt->execute([$email]);
+//     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+//     if ($usuario && password_verify($senha, $usuario['senha'])) {
+//         return $usuario;
+//     }
+//     return false;
+// }
