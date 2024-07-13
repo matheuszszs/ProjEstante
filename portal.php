@@ -76,6 +76,15 @@ function saudacao()
                                 <p> <?php echo htmlspecialchars($livro['autor']) ?></p>
                                 <span> <?php echo htmlspecialchars($livro['ano_publicacao']) ?></span>
                             </li>
+
+                            <ul class="comentarios">
+                                <?php 
+                                // BUSCA COMENTARIOS
+
+                                $comentarios = $livros->lerComentario($livro[$idlivro]);
+                                while ($comentario = $comentarios->fetch)
+                                ?>
+                            </ul>
                         <?php endwhile; ?>
                     </ul>
                 </div>

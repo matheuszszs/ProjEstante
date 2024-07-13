@@ -129,16 +129,11 @@ class Usuario
         return $stmt->rowCount() > 0;
     }
 
-    public function verificaAdm($id){
-        $query = "SELECT adm FROM usuarios WHERE id = 1";
-        $stmt = $this->conn->query($query);
-
-        if ($result && $result->num_rows > 0) {
-            $row = $result->FETCH_ASSOC();
-            return $row['id'] == 1;
-        } else {
-            return false;
-        }
+    public function verificaAdm($id, $adm){
+        $query = "SELECT * FROM " . $this->table_name . "WHERE adm = 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id, $adm]);
+        return $stmt->rowCount() > 0;
     }
 }
 

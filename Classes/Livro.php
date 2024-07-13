@@ -96,4 +96,18 @@ class Livro
             $_SESSION['lista'] = array();
         }
     }
+
+    public function lerComentario($idlivro) {
+        $query = "SELECT * FROM comentarios WHERE idlivro = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$idlivro]);
+        return $stmt;
+    }
+
+    public function addComentario($idlivro, $idusu, $titulo, $comentario){
+        $query = "INSERT INTO comentarios (idlivro, idusu, titulo, comentario, data)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$idlivro]);
+        return false;
+    }
 }
