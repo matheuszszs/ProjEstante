@@ -15,7 +15,7 @@ class Livro
         $query = "INSERT INTO " . $this->table_name . " (titulo, autor, genero, ano_publicacao) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $hashed_password = password_hash($ano_publicacao, PASSWORD_BCRYPT);
-        $stmt->execute([$titulo, $autor, $genero, $hashed_password]);
+        $stmt->execute([$titulo, $autor, $genero, $ano_publicacao]);
         return $stmt;
     }
 
@@ -85,29 +85,22 @@ class Livro
     }
     public function deletarLivro($idlivro)
     {
-        $query = "DELETE FROM " . $this->table_name . " WHERE idlivro = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([$idlivro]);
-        return $stmt;
+        // Excluir os comentários associados ao livro
+        $query_delete_comentarios = "DELETE FROM comentarios WHERE idliv = ?";
+        $stmt_delete_comentarios = $this->conn->prepare($query_delete_comentarios);
+        $stmt_delete_comentarios->execute([$idlivro]);
+
+        // Excluir o livro
+        $query_delete_livro = "DELETE FROM " . $this->table_name . " WHERE idlivro = ?";
+        $stmt_delete_livro = $this->conn->prepare($query_delete_livro);
+        $stmt_delete_livro->execute([$idlivro]);
+
+        return true;
     }
 
     public function addALista($idlivro, $titulo, $autor, $ano_publicacao, $genero){
         if(!isset($_SESSION['lista'])){
             $_SESSION['lista'] = array();
         }
-    }
-
-    public function lerComentario($idlivro) {
-        $query = "SELECT * FROM comentarios WHERE idlivro = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([$idlivro]);
-        return $stmt;
-    }
-
-    public function addComentario($idlivro, $idusu, $titulo, $comentario){
-        $query = "INSERT INTO comentarios (idlivro, idusu, titulo, comentario, data)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([$idlivro]);
-        return false;
     }
 }

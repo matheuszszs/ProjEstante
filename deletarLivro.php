@@ -7,12 +7,15 @@
 
     include_once './config/config.php';
     include_once './classes/Livro.php';
+    include_once './classes/Usuario.php';
 
     $livro = new Livro($db);
-    if(isset($_GET['idnot'])){
-        $idlivro = $_GET['idlivro'];
+
+  
+    if(isset($_GET['id'])){
+        $idlivro = $_GET['id'];
         $livro->deletarLivro($idlivro);
-        header('Location: portal.php');
+        header('Location: index.php');
         exit();
     }
 ?>

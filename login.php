@@ -10,7 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email'];
         $senha = $_POST['senha'];
         if ($dados_Usuario = $usuario->login($email, $senha)) {
-            $_SESSION['usuario_id'] = $dados_Usuario['id'];
+            $_SESSION['usuario_id'] = $dados_Usuario['id']; 
+            $_SESSION['usuario_adm'] = $dados_Usuario['adm'];
             header('location: index.php');
             exit();
         } else {
@@ -18,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>

@@ -9,17 +9,17 @@ class Comentario
     {
         $this->conn = $db;
     }
-    public function registrar($idusu, $data, $titulo, $comentario)
+    public function registrar($idusu, $idliv, $data, $titulo, $comentario)
     {
-        $query = "INSERT INTO " . $this->table_name . " (idusu, data, titulo, comentario) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO " . $this->table_name . " (idusu, idliv, data, titulo, comentario) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$idusu, $data, $titulo, $comentario]);
+        $stmt->execute([$idusu, $idliv, $data, $titulo, $comentario]);
         return $stmt;
     }
 
-    public function criar($idusu, $data, $titulo, $comentario)
+    public function criar($idusu, $idliv, $data, $titulo, $comentario)
     {
-        return $this->registrar($idusu, $data, $titulo, $comentario);
+        return $this->registrar($idusu, $idliv, $data, $titulo, $comentario);
     }
     public function ler($search = '', $order_by = '') {
         $query = "SELECT c.idcoment, u.nome  as usuario, c.comentarios";
@@ -52,6 +52,13 @@ class Comentario
         $stmt->execute([$idusu]);
         return $stmt;
     }
+    public function lerPorIdliv($idliv){
+        $query = "SELECT * FROM " . $this->table_name . " WHERE idliv = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$idliv]);
+        return $stmt;
+    }
     public function lerPorId($idcoment)
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE idcoment = ?";
@@ -60,11 +67,11 @@ class Comentario
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function atualizar($idusu, $data, $titulo, $comentario, $idcoment)
+    public function atualizar($idusu, $idliv, $data, $titulo, $comentario, $idcoment)
     {
-        $query = "UPDATE " . $this->table_name . " SET idusu = ?, data = ?, titulo = ?, comentario = ? WHERE idcoment = ?";
+        $query = "UPDATE " . $this->table_name . " SET idusu = ?, idliv = ?, data = ?, titulo = ?, comentario = ? WHERE idcoment = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute([$idusu, $data, $titulo, $comentario,$idcoment]);
+        $stmt->execute([$idusu, $idliv, $data, $titulo, $comentario,$idcoment]);
         return $stmt;
     }
     public function deletar($idcoment)

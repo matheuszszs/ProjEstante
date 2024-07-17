@@ -8,7 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fone = $_POST['fone'];
     $email = $_POST['email'];
     $senha = $_POST['senha'];
-    $usuario->criar($nome, $fone, $email, $senha);
+    $adm = $_POST['adm'];
+
+    $usuario->registrar($nome, $fone, $email, $senha, $adm);
     header('Location: login.php');
     exit();
 }

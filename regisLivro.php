@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $genero = $_POST['genero'];
     $titulo = $_POST['titulo'];
     $livros->criar($titulo, $autor, $genero, $ano_publicacao);
-    header('Location: portal.php');
+    header('Location: index.php');
     exit();
 }
 ?>
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="autor">Autor: </label>
                 <input class="campText" type="text" name="autor" required><br><br>
                 <label for="anoPubli">Ano de Publicação: </label>
-                <input class="campText" type="text" name="anoPubli" required><br><br>
+                <input class="campText" type="number" name="anoPubli" required><br><br>
                 <label for="genero">Gênero: </label>
                 <select name="genero" id="genero">
                     <option value="Ficção Científica">Ficção Científica</option>
@@ -57,6 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="Ensaios">Ensaios</option>
                     <option value="Literatura Infantil">Literatura Infantil</option>
                 </select><br><br>
+                <label for="imagem" >Escolha a imagem:</label>
+                <input type="file" name="imagem" id="imagem" required><br><br>
                 <div class="botoes">
                     <input class="botao" type="submit" value="Adicionar">
                 </div>
