@@ -10,12 +10,12 @@ class Livro
     {
         $this->conn = $db;
     }
-    public function registrar($titulo, $autor, $genero, $ano_publicacao)
+    public function registrar($titulo, $autor, $genero, $ano_publicacao, $caminho)
     {
-        $query = "INSERT INTO " . $this->table_name . " (titulo, autor, genero, ano_publicacao) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO " . $this->table_name . " (titulo, autor, genero, ano_publicacao, caminho) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $hashed_password = password_hash($ano_publicacao, PASSWORD_BCRYPT);
-        $stmt->execute([$titulo, $autor, $genero, $ano_publicacao]);
+        $stmt->execute([$titulo, $autor, $genero, $ano_publicacao, $caminho]);
         return $stmt;
     }
 
@@ -31,9 +31,9 @@ class Livro
         }
         return false;
     }
-    public function criar($titulo, $autor, $genero, $ano_publicacao)
+    public function criar($titulo, $autor, $genero, $ano_publicacao, $caminho)
     {
-        return $this->registrar($titulo, $autor, $genero, $ano_publicacao);
+        return $this->registrar($titulo, $autor, $genero, $ano_publicacao, $caminho);
     }
     public function ler($search = '', $order_by = '')
     {

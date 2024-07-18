@@ -1,8 +1,8 @@
 <?php
-require 'db.php';
+require 'Database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nome = $_POST['nome'];
+    $titulo = $_POST['titulo'];
     $imagem = $_FILES['imagem'];
 
     // Verificar se houve erro no upload
@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Mover o arquivo para a pasta de uploads
         if (move_uploaded_file($imagem['tmp_name'], $caminhoArquivo)) {
             // Salvar o caminho no banco de dados
-            $stmt = $pdo->prepare('INSERT INTO imagens (nome, caminho) VALUES (:nome, :caminho)');
-            $stmt->execute(['nome' => $nome, 'caminho' => $caminhoArquivo]);
+            $stmt = $pdo->prepare('INSERT INTO imagens (titulo, caminho) VALUES (:titulo, :caminho)');
+            $stmt->execute(['titulo' => $nome, 'caminho' => $caminhoArquivo]);
 
             echo "Imagem carregada com sucesso!";
             echo " <a href='index.php'>Voltar</a><br><br>";
@@ -29,3 +29,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "Método de requisição inválido.";
 }
 ?>
+
+

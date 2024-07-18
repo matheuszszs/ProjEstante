@@ -11,6 +11,8 @@ include_once './classes/Livro.php';
 
 $livro = new Livro($db);
 
+
+
 //Processar exlusão da notícia
 if(isset($_GET['idlivro'])){
         $idlivro = $_GET['idlivro'];

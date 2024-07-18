@@ -1,2 +1,0 @@
-# EstanteVirtual
-Projeto Final
